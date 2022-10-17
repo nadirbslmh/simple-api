@@ -25,6 +25,8 @@ type Product struct {
 
 var DB *gorm.DB
 
+const DEFAULT_PORT = "1323"
+
 func main() {
 
 	// connect to the database
@@ -85,5 +87,13 @@ func main() {
 		})
 	})
 
-	app.Logger.Fatal(app.Start(":1323"))
+	var port string = os.Getenv("PORT")
+
+	if port == "" {
+		port = DEFAULT_PORT
+	}
+
+	var appPort string = fmt.Sprintf(":%s", port)
+
+	app.Logger.Fatal(app.Start(appPort))
 }
