@@ -59,15 +59,17 @@ func main() {
 			return echo.NewHTTPError(http.StatusBadRequest, "bad request")
 		}
 
-		DB.Create(&product)
+		if err := DB.Create(&product).Error; err != nil {
+			return echo.NewHTTPError(http.StatusInternalServerError, "cannot insert data")
+		}
 
 		var createdProduct Product
 
-		created := DB.Last(&createdProduct)
+		DB.Last(&createdProduct)
 
 		return c.JSON(http.StatusCreated, map[string]any{
 			"message": "product created",
-			"data":    created,
+			"data":    createdProduct,
 		})
 
 	})
