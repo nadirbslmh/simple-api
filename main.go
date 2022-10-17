@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -94,6 +95,10 @@ func main() {
 	}
 
 	var appPort string = fmt.Sprintf(":%s", port)
+
+	app.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "[${time_rfc3339}] ${method} ${path} ${status}",
+	}))
 
 	app.Logger.Fatal(app.Start(appPort))
 }
