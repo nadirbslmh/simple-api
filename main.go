@@ -59,9 +59,7 @@ func main() {
 			return echo.NewHTTPError(http.StatusBadRequest, "bad request")
 		}
 
-		if err := DB.Create(&product).Error; err != nil {
-			return echo.NewHTTPError(http.StatusInternalServerError, "cannot insert data")
-		}
+		DB.Create(&product)
 
 		var createdProduct Product
 
