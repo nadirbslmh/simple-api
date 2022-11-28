@@ -1,0 +1,80 @@
+definitions:
+  controllers.Response:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  models.Product:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: integer
+      quantity:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /products:
+    get:
+      description: get all products data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: all products
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Product'
+                  type: array
+              type: object
+      summary: get all products
+    post:
+      consumes:
+      - application/json
+      description: create a new product data
+      parameters:
+      - description: Create product
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: product created
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Product'
+              type: object
+      summary: create a product
+swagger: "2.0"

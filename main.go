@@ -7,6 +7,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+//	@title			Simple Products API
+//	@version		1.0
+//	@description	This is a simple Products API
 func main() {
 	database.InitDB()
 
