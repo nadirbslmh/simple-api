@@ -26,3 +26,15 @@ func GetProducts() []models.Product {
 
 	return products
 }
+
+func GetProductsByName(keyword string) []models.Product {
+	var products []models.Product
+
+	productName := "%" + keyword + "%"
+
+	if err := database.DB.Where("name LIKE ?", productName).Find(&products).Error; err != nil {
+		return []models.Product{}
+	}
+
+	return products
+}

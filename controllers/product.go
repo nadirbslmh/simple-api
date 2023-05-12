@@ -45,7 +45,19 @@ func CreateProduct(c echo.Context) error {
 // @Success		200	{object}	Response{data=[]models.Product}	"all products"
 // @Router			/products [get]
 func GetAll(c echo.Context) error {
-	products := services.GetProducts()
+	var products []models.Product
+
+	productKeyword := c.QueryParam("keyword")
+
+	if productKeyword != "" {
+		products = services.GetProductsByName(productKeyword)
+		return c.JSON(http.StatusOK, Response[[]models.Product]{
+			Message: "all products",
+			Data:    products,
+		})
+	}
+
+	products = services.GetProducts()
 
 	return c.JSON(http.StatusOK, Response[[]models.Product]{
 		Message: "all products",
